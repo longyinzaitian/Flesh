@@ -107,6 +107,8 @@ public class MainService extends Service {
 
                         }
                         break;
+                        default:
+                            break;
                 }
 
             }

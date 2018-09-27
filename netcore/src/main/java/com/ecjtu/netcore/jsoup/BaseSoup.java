@@ -27,10 +27,11 @@ public abstract class BaseSoup implements ISoup {
         mHtml = html;
     }
 
+    @Override
     public Map<String, Object> doParse(Object... arg) {
         mArguments = arg;
         if (mValues == null) {
-            mValues = new HashMap<>();
+            mValues = new HashMap<>(2);
         }
         Document doc = Jsoup.parse(mHtml);
         mHeader = doc.head();

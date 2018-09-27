@@ -113,7 +113,9 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
                     }
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
-                    if (mMode == MODE_UNABLE) return true;
+                    if (mMode == MODE_UNABLE) {
+                        return true;
+                    }
                     mMode = MODE_ZOOM;
                     mStartDis = distance(event);
                     break;
@@ -126,8 +128,10 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
 
         public void setDragMatrix(MotionEvent event) {
             if (isZoomChanged()) {
-                float dx = event.getX() - startPoint.x; // 得到x轴的移动距离
-                float dy = event.getY() - startPoint.y; // 得到x轴的移动距离
+                // 得到x轴的移动距离
+                float dx = event.getX() - startPoint.x;
+                // 得到x轴的移动距离
+                float dy = event.getY() - startPoint.y;
                 //避免和双击冲突,大于10f才算是拖动
                 if (Math.sqrt(dx * dx + dy * dy) > 10f) {
                     startPoint.set(event.getX(), event.getY());
@@ -167,12 +171,14 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
          */
         private float checkDyBound(float[] values, float dy) {
             float height = getHeight();
-            if (mImageHeight * values[Matrix.MSCALE_Y] < height)
+            if (mImageHeight * values[Matrix.MSCALE_Y] < height) {
                 return 0;
-            if (values[Matrix.MTRANS_Y] + dy > 0)
+            }
+            if (values[Matrix.MTRANS_Y] + dy > 0) {
                 dy = -values[Matrix.MTRANS_Y];
-            else if (values[Matrix.MTRANS_Y] + dy < -(mImageHeight * values[Matrix.MSCALE_Y] - height))
+            } else if (values[Matrix.MTRANS_Y] + dy < -(mImageHeight * values[Matrix.MSCALE_Y] - height)) {
                 dy = -(mImageHeight * values[Matrix.MSCALE_Y] - height) - values[Matrix.MTRANS_Y];
+            }
             return dy;
         }
 
@@ -185,12 +191,14 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
          */
         private float checkDxBound(float[] values, float dx) {
             float width = getWidth();
-            if (mImageWidth * values[Matrix.MSCALE_X] < width)
+            if (mImageWidth * values[Matrix.MSCALE_X] < width) {
                 return 0;
-            if (values[Matrix.MTRANS_X] + dx > 0)
+            }
+            if (values[Matrix.MTRANS_X] + dx > 0) {
                 dx = -values[Matrix.MTRANS_X];
-            else if (values[Matrix.MTRANS_X] + dx < -(mImageWidth * values[Matrix.MSCALE_X] - width))
+            } else if (values[Matrix.MTRANS_X] + dx < -(mImageWidth * values[Matrix.MSCALE_X] - width)) {
                 dx = -(mImageWidth * values[Matrix.MSCALE_X] - width) - values[Matrix.MTRANS_X];
+            }
             return dx;
         }
 
@@ -201,12 +209,19 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
          */
         private void setZoomMatrix(MotionEvent event) {
             //只有同时触屏两个点的时候才执行
-            if (event.getPointerCount() < 2) return;
-            float endDis = distance(event);// 结束距离
-            if (endDis > 10f) { // 两个手指并拢在一起的时候像素大于10
-                float scale = endDis / mStartDis;// 得到缩放倍数
-                mStartDis = endDis;//重置距离
-                mCurrentMatrix.set(getImageMatrix());//初始化Matrix
+            if (event.getPointerCount() < 2) {
+                return;
+            }
+            // 结束距离
+            float endDis = distance(event);
+            // 两个手指并拢在一起的时候像素大于10
+            if (endDis > 10f) {
+                // 得到缩放倍数
+                float scale = endDis / mStartDis;
+                //重置距离
+                mStartDis = endDis;
+                //初始化Matrix
+                mCurrentMatrix.set(getImageMatrix());
                 float[] values = new float[9];
                 mCurrentMatrix.getValues(values);
 
@@ -223,8 +238,9 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
          * @return
          */
         private float checkMaxScale(float scale, float[] values) {
-            if (scale * values[Matrix.MSCALE_X] > mMaxScale)
+            if (scale * values[Matrix.MSCALE_X] > mMaxScale) {
                 scale = mMaxScale / values[Matrix.MSCALE_X];
+            }
             mCurrentMatrix.postScale(scale, scale, getWidth() / 2, getHeight() / 2);
             return scale;
         }
@@ -263,7 +279,8 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
             if (getScaleType() != ScaleType.CENTER) {
                 setScaleType(ScaleType.MATRIX);
             } else {
-                mMode = MODE_UNABLE;//设置为不支持手势
+                //设置为不支持手势
+                mMode = MODE_UNABLE;
             }
         }
 
@@ -285,7 +302,8 @@ public class DragImageView extends android.support.v7.widget.AppCompatImageView 
          */
         public void onDoubleClick() {
             float scale = isZoomChanged() ? 1 : mDobleClickScale;
-            mCurrentMatrix.set(mMatrix);//初始化Matrix
+            //初始化Matrix
+            mCurrentMatrix.set(mMatrix);
             mCurrentMatrix.postScale(scale, scale, getWidth() / 2, getHeight() / 2);
             setImageMatrix(mCurrentMatrix);
         }

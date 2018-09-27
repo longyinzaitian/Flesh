@@ -93,6 +93,7 @@ public class MainApplication extends Application {
     }
 
     private static class SimpleGlideModule extends AppGlideModule {
+        @Override
         public void applyOptions(Context context, GlideBuilder builder) {
             //定义缓存大小为500M
             long diskCacheSize = Constants.DEFAULT_GLIDE_CACHE_SIZE;

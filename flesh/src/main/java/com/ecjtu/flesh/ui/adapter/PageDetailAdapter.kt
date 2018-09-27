@@ -137,7 +137,7 @@ class PageDetailAdapter(var pageModel: PageDetailModel) : RecyclerViewWrapAdapte
             val parent = target.view.parent?.parent
             val layoutParams = (parent as View).layoutParams
             var height = resource?.height ?: LinearLayout.LayoutParams.WRAP_CONTENT
-            height += parent.findViewById(R.id.title).height
+            height += (parent.findViewById(R.id.title) as View).height
             if (layoutParams.height != height) {
                 layoutParams.height = height
             }

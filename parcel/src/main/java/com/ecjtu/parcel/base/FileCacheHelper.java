@@ -99,7 +99,9 @@ public class FileCacheHelper {
 
     protected <T> boolean writeObject(String key, T object, String path, String tempName) {
         File file = new File(path, tempName);
-        if (file.exists()) file.delete();
+        if (file.exists()) {
+            file.delete();
+        }
         FileOutputStream fos = null;
         boolean ret = false;
         FileLock fileLock = null;
@@ -135,7 +137,9 @@ public class FileCacheHelper {
 
     protected <T> T readObject(String key, String path) {
         File file = new File(path, key);
-        if (!file.exists()) return null;
+        if (!file.exists()) {
+            return null;
+        }
 
         T ret = null;
         FileLock fileLock = null;

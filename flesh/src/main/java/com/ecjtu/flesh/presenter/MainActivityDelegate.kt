@@ -289,9 +289,9 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
                 }
                 Unit
             }
-            layout.findViewById(R.id.top).setOnClickListener(listener)
-            layout.findViewById(R.id.mid).setOnClickListener(listener)
-            layout.findViewById(R.id.bottom).setOnClickListener(listener)
+            (layout.findViewById(R.id.top) as View).setOnClickListener(listener)
+            (layout.findViewById(R.id.mid) as View).setOnClickListener(listener)
+            (layout.findViewById(R.id.bottom) as View).setOnClickListener(listener)
 
             local.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -309,7 +309,7 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
                 val curPos = (recyclerView?.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                 local.progress = curPos
             }
-            layout.findViewById(R.id.mid).setOnClickListener(listener)
+            (layout.findViewById(R.id.mid) as View).setOnClickListener(listener)
             vg.addView(layout)
         }
         snake.show()

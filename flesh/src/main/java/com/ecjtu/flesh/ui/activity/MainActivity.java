@@ -117,21 +117,24 @@ public class MainActivity extends AppCompatActivity {
 
     protected void transparent() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);  //去除半透明状态栏
+            //去除半透明状态栏
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN); //一般配合fitsSystemWindows()使用, 或者在根部局加上属性android:fitsSystemWindows="true", 使根部局全屏显示
+            //一般配合fitsSystemWindows()使用, 或者在根部局加上属性android:fitsSystemWindows="true", 使根部局全屏显示
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
-
-        if (Build.VERSION.SDK_INT >= 24/*Build.VERSION_CODES.N*/) {
+        /*Build.VERSION_CODES.N*/
+        if (Build.VERSION.SDK_INT >= 24) {
             try {
                 Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
                 Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
                 field.setAccessible(true);
-                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT); //改为透明
+                //改为透明
+                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);
             } catch (Exception e) {
             }
         }

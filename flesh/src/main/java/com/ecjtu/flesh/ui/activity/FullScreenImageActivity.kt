@@ -61,7 +61,7 @@ class FullScreenImageActivity : RotateByOrientationActivity(), RequestListener<B
                         .addHeader("Referer", "http://m.mzitu.com/")
 
                 val glideUrl = GlideUrl(uri, builder.build())
-                Glide.with(this).asBitmap().load(glideUrl).listener(this).into(findViewById(R.id.image) as ImageView)
+                Glide.with(this).asBitmap().load(glideUrl).listener(this).into(findViewById(R.id.image))
                 return
             }
         }
@@ -99,7 +99,7 @@ class FullScreenImageActivity : RotateByOrientationActivity(), RequestListener<B
     }
 
     private fun initView() {
-        val toolbar = findViewById(R.id.tool_bar) as Toolbar?
+        val toolbar = findViewById<Toolbar>(R.id.tool_bar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = ""

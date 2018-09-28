@@ -67,7 +67,7 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
         if (menuList != null) {
             mViewPager.adapter = TabPagerAdapter(menuList)
             mTabLayout.setupWithViewPager(mViewPager)
-            mViewPager.setCurrentItem(lastTabItem)
+            mViewPager.currentItem = (lastTabItem)
         }
         val request = AsyncNetwork()
         request.request(Constants.HOST_MOBILE_URL, null)
@@ -79,15 +79,15 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
                         var localList: List<MenuModel>? = null
                         if (values[MenuSoup::class.java.simpleName] != null) {
                             localList = values[MenuSoup::class.java.simpleName] as List<MenuModel>
-                            if (menuList == null && localList != null) {
+                            if (menuList == null) {
                                 mViewPager.adapter = TabPagerAdapter(localList)
                                 mTabLayout.setupWithViewPager(mViewPager)
-                                mViewPager.setCurrentItem(lastTabItem)
+                                mViewPager.currentItem = (lastTabItem)
                             } else {
                                 var needUpdate = false
                                 for (obj in localList) {
-                                    if (menuList?.indexOf(obj) ?: 0 < 0) {
-                                        menuList?.add(0, obj)
+                                    if (menuList.indexOf(obj) < 0) {
+                                        menuList.add(0, obj)
                                         needUpdate = true
                                     }
                                 }
@@ -111,7 +111,7 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
         val glideStr = Formatter.formatFileSize(owner, glideSize)
         val textView = findViewById(R.id.size) as TextView?
         textView?.let {
-            textView.setText(String.format("%s/%s", glideStr, cacheStr))
+            textView.text = (String.format("%s/%s", glideStr, cacheStr))
         }
         mFloatButton.setOnClickListener {
             doFloatButton()
@@ -236,7 +236,7 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
 //        }
 //    }
 
-    fun isAppbarLayoutExpand(): Boolean = mAppbarExpand
+    private fun isAppbarLayoutExpand(): Boolean = mAppbarExpand
 
     fun convertView2Bitmap(view: View, width: Int, height: Int): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -295,7 +295,7 @@ class MainActivityDelegate(owner: MainActivity) : Delegate<MainActivity>(owner) 
 
             local.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    pos.setText(progress.toString())
+                    pos.text = (progress.toString())
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {

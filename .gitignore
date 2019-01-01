@@ -8,5 +8,6 @@
 /captures
 .externalNativeBuild
 .idea
+.idea/*
 Flesh.iml
 /.idea/caches/*
